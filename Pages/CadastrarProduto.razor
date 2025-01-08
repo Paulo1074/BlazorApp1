@@ -1,0 +1,78 @@
+﻿@page "/"
+@page "/cadastrarproduto"
+
+@using BlazorApp1.Models
+@using static System.Runtime.InteropServices.JavaScript.JSType
+
+<Titulo Texto="Cadastro de Produtos"></Titulo>
+<Mensagem Msg=@msg></Mensagem>
+
+<EditForm Model="@produto" OnValidSubmit="@Incluir" OninvalidSubmit="@erro">
+
+	<DataAnnotationsValidator></DataAnnotationsValidator>
+
+	<ValidationSummary></ValidationSummary>
+
+	<label class="text-muted mt-3">Nome</label>
+	<InputText @bind-Value=produto.Nome class="form-control" />
+	<ValidationMessage For="@(() => produto.Nome)"></ValidationMessage>
+
+	<label class="text-muted mt-3">Preço</label>
+	<InputNumber TValue="double" @bind-Value=produto.Preco class="form-control" />
+	<ValidationMessage For="@(() => produto.Preco)"></ValidationMessage>
+
+	<label class="text-muted mt-3">Quantidade</label>
+	<InputNumber TValue="int" @bind-Value=produto.Quantidade class="form-control" />
+	<ValidationMessage For="@(() => produto.Quantidade)"></ValidationMessage>	
+
+
+	<button type="submit" class="mt-3 btn btn-primary">Incluir</button>
+
+</EditForm>
+
+<div class="p-5 border shadow mt-3">
+	<h4 class="text-center">Produto Cadastrado</h4>
+	@produto.Nome
+	<br />
+	@produto.Preco
+	<br />
+	@produto.Quantidade
+	<br />
+	@produto.ValorEstoqueTotal()
+	<br />
+	<button @onclick="ColocaDados" class="mt-3 btn btn-primary">
+		Colocar dados
+	</button>
+</div>
+
+
+
+
+@code {
+
+	Produto produto = new Produto();
+	private string msg = "";
+
+
+	private void ColocaDados()
+	{
+		produto.Nome = "Caneta";
+		produto.Preco = 10;
+		produto.Quantidade = 7;
+	}
+
+	private void Incluir()
+	{
+		msg = "Produto cadastrado";
+	}
+
+	private void erro()
+	{
+		msg = "Não foi possivel gravar o produto";
+	}
+
+}
+
+
+
+
